@@ -21,7 +21,7 @@ public class FlexibilityReservationMapper {
                 .marketId(entity.getMarketId())
                 .positiveBidId(entity.getPositiveBidId())
                 .negativeBidId(entity.getNegativeBidId())
-                .positiveValue(entity.getPositiveEnergyPrice())
+                .positiveValue(entity.getPositiveValue())
                 .positiveCapacityPrice(entity.getPositiveCapacityPrice())
                 .positiveEnergyPrice(entity.getPositiveEnergyPrice())
                 .negativeValue(entity.getNegativeValue())

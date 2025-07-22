@@ -1,0 +1,59 @@
+INSERT INTO flexibility_reservations (
+    id,
+    asset_id,
+    market_id,
+    positive_bid_id,
+    negative_bid_id,
+    positive_value,
+    positive_capacity_price,
+    positive_energy_price,
+    negative_value,
+    negative_capacity_price,
+    negative_energy_price,
+    timestamp,
+    updated_at
+) VALUES (
+    1024,
+    '9179b887-04ef-4ce5-ab3a-b5bbd39eb4d6',
+    '8a5075bf-2552-4119-c292-61ddcfd37ba2',
+    null,
+    null,
+    200,
+    1.5,
+    1.5,
+    250,
+    2.0,
+    2.0,
+    '2022-10-24T14:15:22Z',
+    '2025-10-10T11:42:12.794363Z'
+);
+
+INSERT INTO flexibility_reservations (
+    id,
+    asset_id,
+    market_id,
+    positive_bid_id,
+    negative_bid_id,
+    positive_value,
+    positive_capacity_price,
+    positive_energy_price,
+    negative_value,
+    negative_capacity_price,
+    negative_energy_price,
+    timestamp,
+    updated_at
+) VALUES (
+    2048,
+    '9179b887-04ef-4ce5-ab3a-b5bbd39eb4d6',
+    '8a5075bf-2552-4119-c292-61ddcfd37ba2',
+    '8a5075bf-2552-4119-b135-61ddcfd37ba2',
+    '8a5075bf-2552-4119-b135-61ddcfd37ba2',
+    200,
+    1.5,
+    1.5,
+    250,
+    2.0,
+    2.0,
+    '2022-10-10T14:15:22Z',
+    '2022-10-24T11:42:12.794363Z'
+);
