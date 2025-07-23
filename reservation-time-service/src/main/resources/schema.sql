@@ -1,4 +1,4 @@
-CREATE TABLE flexibility_reservations (
+CREATE TABLE IF NOT EXISTS flexibility_reservations (
     id BIGINT PRIMARY KEY AUTO_INCREMENT,
     asset_id UUID NOT NULL,
     market_id UUID NOT NULL,

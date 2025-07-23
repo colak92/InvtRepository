@@ -4,6 +4,13 @@ import com.invt.tech.dto.FlexibilityReservationDTO;
 import com.invt.tech.entity.FlexibilityReservation;
 import org.springframework.stereotype.Component;
 
+
+/**
+ * Mapper component responsible for converting between
+ * {@link FlexibilityReservation} entities and {@link FlexibilityReservationDTO} data transfer objects.
+ * <p>
+ * This class enables separation of concerns by isolating mapping logic used in the service layer.
+ */
 @Component
 public class FlexibilityReservationMapper {
 
@@ -11,8 +18,14 @@ public class FlexibilityReservationMapper {
     // This mapper convert Entity to DTO and otherwise
 
     // Mapping Entity to DTO
-
     // Here, we are using Lombok builder method to set all fields and then build to create object
+
+    /**
+     * Converts a {@link FlexibilityReservation} entity to a {@link FlexibilityReservationDTO}.
+     *
+     * @param entity the FlexibilityReservation entity to convert
+     * @return the corresponding FlexibilityReservationDTO
+     */
     public FlexibilityReservationDTO toDto(FlexibilityReservation entity) {
         FlexibilityReservationDTO dto = FlexibilityReservationDTO
                 .builder()
@@ -36,6 +49,12 @@ public class FlexibilityReservationMapper {
 
     // Mapping DTO to Entity
 
+    /**
+     * Converts a {@link FlexibilityReservationDTO} to a {@link FlexibilityReservation} entity.
+     *
+     * @param dto the FlexibilityReservationDTO to convert
+     * @return the corresponding FlexibilityReservation entity
+     */
     public FlexibilityReservation toEntity(FlexibilityReservationDTO dto) {
         FlexibilityReservation entity = new FlexibilityReservation();
         entity.setId(dto.getId());
