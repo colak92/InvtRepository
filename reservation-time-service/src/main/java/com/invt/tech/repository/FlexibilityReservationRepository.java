@@ -19,8 +19,6 @@ import java.util.UUID;
 @Repository
 public interface FlexibilityReservationRepository extends JpaRepository<FlexibilityReservation, Long> {
 
-    // We need to get list of Flexibility Reservation using method parameters assetId and marketId
-
     /**
      * Retrieves all flexibility reservation records by asset ID and market ID.
      *
@@ -63,14 +61,29 @@ public interface FlexibilityReservationRepository extends JpaRepository<Flexibil
      * @return a list of {@link FlexibilityReservationDTO} with aggregated values and the minimum timestamp
      */
     @Query("SELECT new com.invt.tech.dto.FlexibilityReservationDTO(" +
-            "r.assetId, r.marketId, MIN(r.timestamp), SUM(r.positiveValue), SUM(r.negativeValue)) " +
+            "r.assetId, r.marketId, r.timestamp, SUM(r.positiveValue), SUM(r.negativeValue)) " +
             "FROM FlexibilityReservation r " +
-            "WHERE r.assetId = :assetId AND r.marketId = :marketId AND r.timestamp BETWEEN :from AND :to " +
-            "GROUP BY r.assetId, r.marketId")
+            "WHERE r.assetId = :assetId " +
+            "AND r.marketId = :marketId " +
+            "AND r.timestamp BETWEEN :from AND :to " +
+            "GROUP BY r.timestamp, r.assetId, r.marketId")
     List<FlexibilityReservationDTO> findAggregatedReservationSums(
             @Param("assetId") UUID assetId,
             @Param("marketId") UUID marketId,
             @Param("from") Timestamp from,
             @Param("to") Timestamp to);
+
+//    @Query("SELECT new com.invt.tech.dto.FlexibilityReservationDTO(" +
+//            "r.assetId, r.marketId, MIN(r.timestamp), SUM(r.positiveValue), SUM(r.negativeValue)) " +
+//            "FROM FlexibilityReservation r " +
+//            "WHERE r.assetId = :assetId " +
+//            "AND r.marketId = :marketId " +
+//            "AND r.timestamp BETWEEN :from AND :to " +
+//            "GROUP BY r.assetId, r.marketId")
+//    List<FlexibilityReservationDTO> findAggregatedReservationSums(
+//            @Param("assetId") UUID assetId,
+//            @Param("marketId") UUID marketId,
+//            @Param("from") Timestamp from,
+//            @Param("to") Timestamp to);
 
 }

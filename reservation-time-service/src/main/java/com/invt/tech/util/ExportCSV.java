@@ -5,10 +5,10 @@ import com.invt.tech.handler.CSVExportException;
 import com.opencsv.CSVWriter;
 import jakarta.servlet.http.HttpServletResponse;
 
-import java.io.FileWriter;
 import java.io.IOException;
 import java.io.OutputStreamWriter;
 import java.io.Writer;
+import java.math.BigDecimal;
 import java.util.List;
 
 /**
@@ -41,24 +41,6 @@ public class ExportCSV {
         }
     }
 
-    // Here, we are saving CSV file in folder
-
-    /**
-     * Saves a list of flexibility reservations as a CSV file at the specified file path.
-     *
-     * @param reservations the list of flexibility reservation DTOs to save
-     * @param isTotal      if true, saves aggregated data with fewer columns; otherwise saves full details
-     * @param filePath     the file system path where the CSV file will be saved
-     * @throws CSVExportException if an I/O error occurs during file writing
-     */
-    public static void saveCSVFile(List<FlexibilityReservationDTO> reservations, boolean isTotal, String filePath) {
-        try (FileWriter fileWriter = new FileWriter(filePath)) {
-            writeReservationsToCSV(reservations, isTotal, fileWriter);
-        } catch (IOException e) {
-            throw new CSVExportException("Failed to save CSV file at " + filePath, e);
-        }
-    }
-
     // Helper method to reduce boiler code, also converting positive and negative values KiloWatts to MegaWatts by this formula (Kw / 1000) = MW
     // If total parameter true we will have 5 header columns, else we will have all header columns
 
@@ -78,11 +60,11 @@ public class ExportCSV {
                 writer.writeNext(new String[]{"timestamp", "assetId", "marketId", "positiveValue", "negativeValue"});
                 for (var r : reservations) {
                     writer.writeNext(new String[]{
-                            r.getTimestamp().toString(),
-                            r.getAssetId().toString(),
-                            r.getMarketId().toString(),
-                            String.valueOf(r.getPositiveValue() / 1000),
-                            String.valueOf(r.getNegativeValue() / 1000)
+                            r.getTimestamp() != null ? r.getTimestamp().toString() : "",
+                            r.getAssetId() != null ? r.getAssetId().toString() : "",
+                            r.getMarketId() != null ? r.getMarketId().toString() : "",
+                            r.getPositiveValue() != null ? r.getPositiveValue().divide(BigDecimal.valueOf(1000)).toPlainString() : "",
+                            r.getNegativeValue() != null ? r.getNegativeValue().divide(BigDecimal.valueOf(1000)).toPlainString() : ""
                     });
                 }
             } else {
@@ -95,18 +77,18 @@ public class ExportCSV {
                 });
                 for (var r : reservations) {
                     writer.writeNext(new String[]{
-                            r.getAssetId().toString(),
-                            r.getMarketId().toString(),
+                            r.getAssetId() != null ? r.getAssetId().toString() : "",
+                            r.getMarketId() != null ? r.getMarketId().toString() : "",
                             r.getPositiveBidId() != null ? r.getPositiveBidId().toString() : "",
                             r.getNegativeBidId() != null ? r.getNegativeBidId().toString() : "",
-                            String.valueOf(r.getPositiveValue() / 1000),
-                            String.valueOf(r.getPositiveCapacityPrice()),
-                            String.valueOf(r.getPositiveEnergyPrice()),
-                            String.valueOf(r.getNegativeValue() / 1000),
-                            String.valueOf(r.getNegativeCapacityPrice()),
-                            String.valueOf(r.getNegativeEnergyPrice()),
-                            r.getTimestamp().toString(),
-                            r.getUpdatedAt().toString()
+                            r.getPositiveValue() != null ? r.getPositiveValue().divide(BigDecimal.valueOf(1000)).toPlainString() : "",
+                            r.getPositiveCapacityPrice() != null ? r.getPositiveCapacityPrice().toPlainString() : "",
+                            r.getPositiveEnergyPrice() != null ? r.getPositiveEnergyPrice().toPlainString() : "",
+                            r.getNegativeValue() != null ? r.getNegativeValue().divide(BigDecimal.valueOf(1000)).toPlainString() : "",
+                            r.getNegativeCapacityPrice() != null ? r.getNegativeCapacityPrice().toPlainString() : "",
+                            r.getNegativeEnergyPrice() != null ? r.getNegativeEnergyPrice().toPlainString() : "",
+                            r.getTimestamp() != null ? r.getTimestamp().toString() : "",
+                            r.getUpdatedAt() != null ? r.getUpdatedAt().toString() : ""
                     });
                 }
             }

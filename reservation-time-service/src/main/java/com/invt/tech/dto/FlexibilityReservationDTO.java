@@ -9,6 +9,7 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import java.math.BigDecimal;
 import java.sql.Timestamp;
 import java.util.UUID;
 
@@ -24,7 +25,6 @@ import java.util.UUID;
 public class FlexibilityReservationDTO {
 
     // Flexibility Reservation Data Transfer Object
-    // This @Data annotation simply removes boiler code and includes getters, setters, hashCode, toString
 
     @Schema(description = "Flexibility reservation ID")
     private long id;
@@ -46,27 +46,27 @@ public class FlexibilityReservationDTO {
     @Schema(description = "Positive value in kilowatts (kW). Will be converted to MW for export.")
     @NotNull(message = "positiveValue must not be null")
     @PositiveOrZero(message = "positiveValue must be zero or positive")
-    private double positiveValue;
+    private BigDecimal positiveValue;
 
     @Schema(description = "Positive capacity price in EUR/MW/h")
     @PositiveOrZero(message = "positiveCapacityPrice must be zero or positive")
-    private double positiveCapacityPrice;
+    private BigDecimal positiveCapacityPrice;
 
     @Schema(description = "Positive energy price in EUR/MW/h")
     @PositiveOrZero(message = "positiveEnergyPrice must be zero or positive")
-    private double positiveEnergyPrice;
+    private BigDecimal positiveEnergyPrice;
 
     @Schema(description = "Negative value in kilowatts (kW). Will be converted to MW for export.")
     @NotNull(message = "negativeValue must not be null")
-    private double negativeValue;
+    private BigDecimal negativeValue;
 
     @Schema(description = "Negative capacity price in EUR/MW/h")
     @PositiveOrZero(message = "negativeCapacityPrice must be zero or positive")
-    private double negativeCapacityPrice;
+    private BigDecimal negativeCapacityPrice;
 
     @Schema(description = "Negative energy price in EUR/MW/h")
     @PositiveOrZero(message = "negativeEnergyPrice must be zero or positive")
-    private double negativeEnergyPrice;
+    private BigDecimal negativeEnergyPrice;
 
     @Schema(description = "Timestamp of the reservation in ISO format")
     @NotNull(message = "timestamp must not be null")
@@ -85,7 +85,7 @@ public class FlexibilityReservationDTO {
      * @param positiveValue positive power value in kW
      * @param negativeValue negative power value in kW
      */
-    public FlexibilityReservationDTO(UUID assetId, UUID marketId, Timestamp timestamp, double positiveValue, double negativeValue) {
+    public FlexibilityReservationDTO(UUID assetId, UUID marketId, Timestamp timestamp, BigDecimal positiveValue, BigDecimal negativeValue) {
         this.assetId = assetId;
         this.marketId = marketId;
         this.timestamp = timestamp;

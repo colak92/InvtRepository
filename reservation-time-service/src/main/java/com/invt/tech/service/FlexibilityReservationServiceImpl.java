@@ -1,7 +1,6 @@
 package com.invt.tech.service;
 
 import com.invt.tech.dto.FlexibilityReservationDTO;
-import com.invt.tech.entity.FlexibilityReservation;
 import com.invt.tech.mapper.FlexibilityReservationMapper;
 import com.invt.tech.repository.FlexibilityReservationRepository;
 import jakarta.persistence.EntityNotFoundException;
@@ -26,8 +25,6 @@ public class FlexibilityReservationServiceImpl implements FlexibilityReservation
     private final FlexibilityReservationRepository flexibilityReservationRepository;
     private final FlexibilityReservationMapper flexibilityReservationMapper;
 
-    // Here we're injecting dependency injection into constructor
-
     /**
      * Constructs a new {@code FlexibilityReservationServiceImpl} with required dependencies.
      *
@@ -42,9 +39,6 @@ public class FlexibilityReservationServiceImpl implements FlexibilityReservation
         this.flexibilityReservationMapper = flexibilityReservationMapper;
     }
 
-    // Here, we are calling JPA repository to get list of Flexibility Reservation entities,
-    // then we are converting list to java stream then we are mapping that into dto list
-
     /**
      * Retrieves a list of flexibility reservations for the given asset and market IDs.
      *
@@ -54,12 +48,6 @@ public class FlexibilityReservationServiceImpl implements FlexibilityReservation
      * @throws EntityNotFoundException if no reservations are found
      */
     public List<FlexibilityReservationDTO> getReservations(UUID assetId, UUID marketId) {
-        List<FlexibilityReservation> reservations = flexibilityReservationRepository.findByAssetIdAndMarketId(assetId, marketId);
-
-        if (reservations.isEmpty()) {
-            throw new EntityNotFoundException("No reservations found for assetId: " + assetId + " and marketId: " + marketId);
-        }
-
         return flexibilityReservationRepository.findByAssetIdAndMarketId(assetId, marketId).stream()
                 .map(flexibilityReservationMapper::toDto)
                 .toList();
@@ -95,9 +83,6 @@ public class FlexibilityReservationServiceImpl implements FlexibilityReservation
         if (from == null || to == null) {
             throw new IllegalArgumentException("Start interval (from) and End interval (to) must not be null");
         }
-        if (from.after(to)) {
-            throw new IllegalArgumentException("Start interval (from) date must be before End interval (to) date");
-        }
 
         List<FlexibilityReservationDTO> result;
 
@@ -115,6 +100,5 @@ public class FlexibilityReservationServiceImpl implements FlexibilityReservation
         }
 
         return result;
-
     }
 }

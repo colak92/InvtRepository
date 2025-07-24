@@ -4,8 +4,10 @@ import jakarta.persistence.*;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.PastOrPresent;
 import jakarta.validation.constraints.PositiveOrZero;
-import lombok.Data;
+import lombok.Getter;
+import lombok.Setter;
 
+import java.math.BigDecimal;
 import java.sql.Timestamp;
 import java.util.UUID;
 
@@ -14,14 +16,12 @@ import java.util.UUID;
  * Contains reservation details such as asset, market, bids, power values (in kW), prices and timestamps for reservation intervals.
  */
 @Entity
-@Data
+@Getter
+@Setter
 @Table(name = "flexibility_reservations")
 public class FlexibilityReservation {
 
     // Flexibility Reservation Entity
-    // This @Entity annotation specifies this class as JPA entity
-    // This @Data annotation simply removes boiler code and includes getters, setters, hashCode, toString
-    // This @Table annotation specifies name of the table in database and mapping entity to that table
 
     /**
      * Unique identifier of the flexibility reservation.
@@ -60,50 +60,50 @@ public class FlexibilityReservation {
     @NotNull
     @PositiveOrZero
     @Column(nullable = false)
-    private double positiveValue;
+    private BigDecimal positiveValue;
 
     /**
      * Positive capacity price in EUR/MW/h
      */
     @PositiveOrZero
-    private double positiveCapacityPrice;
+    private BigDecimal positiveCapacityPrice;
 
     /**
      * Positive energy price in EUR/MWh
      */
     @PositiveOrZero
-    private double positiveEnergyPrice;
+    private BigDecimal positiveEnergyPrice;
 
     /**
      * Negative value in kW
      */
     @NotNull
     @Column(nullable = false)
-    private double negativeValue;
+    private BigDecimal negativeValue;
 
     /**
      * Negative capacity price in EUR/MW/h
      */
     @PositiveOrZero
-    private double negativeCapacityPrice;
+    private BigDecimal negativeCapacityPrice;
 
     /**
      * Negative energy price in EUR/MW/h
      */
     @PositiveOrZero
-    private double negativeEnergyPrice;
+    private BigDecimal negativeEnergyPrice;
 
     /**
      * Data time point.
      */
     @NotNull
-    @Column(name = "timestamp", nullable = false)
+    @Column(name = "timestamp", nullable = false, columnDefinition = "TIMESTAMP")
     private Timestamp timestamp;
 
     /**
      * Date time of updated interval.
      */
-    @Column(name = "updatedAt")
+    @Column(name = "updatedAt", columnDefinition = "TIMESTAMP")
     @PastOrPresent(message = "updatedAt must be in the past or present")
     private Timestamp updatedAt;
 }

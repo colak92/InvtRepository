@@ -28,13 +28,7 @@ import java.util.UUID;
 @RequestMapping("/api/v1/flexibility/reservations")
 public class FlexibilityReservationController {
 
-    // This @RestController means we are using @Controller with @ResponseBody
-    // and automatically serializes return objects into JSON/XML responses
-    // This @RequestMapping means we need to map requests to controllers methods
-
-    private FlexibilityReservationService flexibilityReservationService;
-
-    // Here we're injecting dependency injection into constructor
+    private final FlexibilityReservationService flexibilityReservationService;
 
     /**
      * Constructor for dependency injection.
@@ -45,9 +39,7 @@ public class FlexibilityReservationController {
         this.flexibilityReservationService = flexibilityReservationService;
     }
 
-    // Here we're mapping this method to work using GET mapping, we are setting HTTP-GET mapping to this method
-    // We are sending two parameters to service which is then calling JPA repository
-    // because we need to return list of Flexibility Reservations
+    // Here we need to return all flexibility reservations by asset and market
 
     /**
      * GET endpoint to retrieve flexibility reservations by asset and market.
@@ -82,7 +74,6 @@ public class FlexibilityReservationController {
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200", description = "CSV export successful", content = @Content),
             @ApiResponse(responseCode = "400", description = "Invalid request parameters", content = @Content),
-            @ApiResponse(responseCode = "500", description = "Internal server error", content = @Content)
     })
     @GetMapping("/{assetId}/market/{marketId}/export")
     public void exportReservations(
@@ -96,15 +87,11 @@ public class FlexibilityReservationController {
             @RequestParam(value = "total", required = false, defaultValue = "false") boolean total,
             HttpServletResponse response) {
 
-        String filePath = System.getProperty("user.dir") + "/csv_files/reservations.csv";
-
         Timestamp fromAsTimestamp = Timestamp.from(from);
         Timestamp toAsTimestamp = Timestamp.from(to);
 
         List<FlexibilityReservationDTO> exportedData = flexibilityReservationService.getFilteredOrAggregatedReservations(assetId, marketId, fromAsTimestamp, toAsTimestamp, total);
-
         ExportCSV.exportToCSV(exportedData, total, response);
-        ExportCSV.saveCSVFile(exportedData, total, filePath);
     }
 
 }

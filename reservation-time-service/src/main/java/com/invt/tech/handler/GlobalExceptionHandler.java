@@ -26,6 +26,17 @@ public class GlobalExceptionHandler {
     }
 
     /**
+     * Handles {@link CSVExportException} thrown when a file is not found.
+     *
+     * @param ex the exception instance
+     * @return ResponseEntity with HTTP 404 status and error message
+     */
+    @ExceptionHandler(CSVExportException.class)
+    public ResponseEntity<String> handleCSVExport(CSVExportException ex) {
+        return new ResponseEntity<>(ex.getMessage(), HttpStatus.NOT_FOUND);
+    }
+
+    /**
      * Handles {@link IllegalArgumentException} thrown due to bad input or invalid arguments.
      *
      * @param ex the exception instance

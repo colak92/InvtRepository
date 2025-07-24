@@ -14,11 +14,10 @@ import org.springframework.stereotype.Component;
 @Component
 public class FlexibilityReservationMapper {
 
-    // We need this @Component for mapper because we need to use mapper in Service
     // This mapper convert Entity to DTO and otherwise
 
     // Mapping Entity to DTO
-    // Here, we are using Lombok builder method to set all fields and then build to create object
+    // Here, we are using Lombok builder method to set all fields and then build() to create object
 
     /**
      * Converts a {@link FlexibilityReservation} entity to a {@link FlexibilityReservationDTO}.
